@@ -5,17 +5,44 @@
   "repository": "<Add your repository here>",
   "license": "UNLICENSED",
   "private": true,
-  "dependencies": {
+  "dependencies": { 
     "@sap/cds": "^6",
     "express": "^4",
-    "hdb": "^0.19.0"
+    "hdb": "^0.19.0",
+    "@sap/xssec": "^3",
+    "passport": "^0"
   },
   "devDependencies": {
-    "sqlite3": "^5.0.4"
+    "@sap/ux-specification": "^1.108.1",
+    "sqlite3": "^5.0.4",
+    "rimraf": "^3.0.2",
+    "@sap/eslint-plugin-cds": "^2.6.0",
+		"@sap/eslint-plugin-ui5-jsdocs": "^2.0.5",
+		"@sapui5/ts-types": "^1.92.2",
+		"chai": "^4.3.7",
+		"chai-as-promised": "^7.1.1",
+		"chai-subset": "^1.6.0",
+		"concurrently": "^7.4.0",
+		"copyfiles": "^2.4.1",
+		"eslint": "^7.32.0",
+		"eslint-html-reporter": "^0.7.4",
+		"eslint-plugin-jsdoc": "^39.3.14",
+		"eslint-plugin-ui5": "^0.1.0",
+		"mocha": "^10.1.0"
   },
   "scripts": {
-    "start": "cds run"
-  },
+    "start": "cds run",
+    "watch-admin": "cds watch --open admin/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy shop-manager --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "postinstall": "npx patch-package",
+		"test": "mocha",
+		"test:ui": "concurrently --kill-others \"npm start\" \"npm run karma --prefix app/admin\"",
+		"husky": "npx husky install && npx husky add .husky/pre-commit \"npm run lint\"",
+		"lint": "eslint . --max-warnings 0",
+		"copy:assets": "copyfiles assets/* gen/srv"
+	},
   "engines": {
     "node": "^16.15"
   },
@@ -53,7 +80,13 @@
       },
       "db": {
         "kind": "sql"
+      },
+      "auth": {
+        "kind": "xsuaa"
       }
     }
-  }
+  },
+  "sapux": [
+    "app/admin"
+  ]
 }

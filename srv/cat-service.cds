@@ -11,3 +11,5 @@ service WholesalersService {
     entity Orders as projection on db.Orders;
     entity OrdersItems as projection on db.OrdersItems;
 }
+
+annotate WholesalersService.Wholesalers with @odata.draft.enabled;

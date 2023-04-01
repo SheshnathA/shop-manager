@@ -1142,3 +1142,34 @@ Untracked files:
         db/data/sap.common-Languages.texts.csv
 
 no changes added to commit (use "git add" and/or "git commit -a")
+
+## Approter - standalone
+
+1. create cap project and add samples and add hana 
+2. cds add xsuaa
+3. add service modules and resources as below -
+  - name: shop-manager-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      host: capfes-srv-${space}
+      memory: 128M
+      disk-quota: 256M
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: shop-manager-db
+      - name: shop-manager-auth
+
+4. add route to app
+5. add launchpad
+6. update xs-app.json
+7. update package.json
+8. install npm
+9. mbt bulid
+10. deploy
