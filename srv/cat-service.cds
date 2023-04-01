@@ -1,5 +1,13 @@
-using my.bookshop as my from '../db/data-model';
+using com.shesh.shop.manager as db from '../db/data-model';
 
 service CatalogService {
-    @readonly entity Books as projection on my.Books;
+    entity Books as projection on db.Books;
+}
+
+service WholesalersService {
+    entity Wholesalers as projection on db.Wholesalers;
+    entity Retailers as projection on db.Retailers;
+    entity Products as projection on db.Products;
+    entity Orders as projection on db.Orders;
+    entity OrdersItems as projection on db.OrdersItems;
 }
