@@ -13,3 +13,6 @@ service WholesalersService {
 }
 
 annotate WholesalersService.Wholesalers with @odata.draft.enabled;
+annotate WholesalersService.Retailers with @odata.draft.enabled;
+annotate WholesalersService.Products with @odata.draft.enabled;
+annotate WholesalersService.Orders with @odata.draft.enabled;

@@ -16,8 +16,8 @@ entity Wholesalers : managed{
   type : String (50);
   status : String(30);
   email : String(100);
-  products : Composition of many Products on products.wholesalers = $self;
-  retailers : Composition of many Retailers on retailers.wholesalers = $self;
+  products : Association to many Products on products.wholesalers = $self;
+  retailers : Association to many Retailers on retailers.wholesalers = $self;
 }
 
 entity Retailers : managed{
@@ -60,14 +60,16 @@ entity Orders : managed{
   shopAddress : String(200);
   wholesalerAddress : String(200);
   totalAmount : Integer;
-  items : Composition of many OrdersItems;   
+  items : Composition of many OrdersItems on items.orders=$self;   
 }
 
 entity OrdersItems : cuid{
   products: Association to Products;
   name : String(100);
   mrp : Integer;
+  qty : Integer;
   rate : Integer;
   unit : String(30);
   subTotal : Integer;
+  orders : Association to Orders;
 }
