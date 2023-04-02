@@ -14,10 +14,8 @@ annotate service.Orders with @(
         },
         {
             $Type : 'UI.DataField',
-            Criticality : #Negative,
             Label : 'Shop Name',
-            Value : retailerVh_shopID,
-             ![@UI.Importance] : #High
+            Value : retailerVh.name
         },
         {
             $Type : 'UI.DataField',
@@ -40,11 +38,14 @@ annotate service.Orders with @(
 
 //Status dropdown
 annotate service.Orders with{
-       statusVh @(Common : {
+       statusVh         @Common.ValueListWithFixedValues;
+       statusVh_status@(Common : {
+        Text            : statusVh.status,
+        TextArrangement : #TextFirst,
         ValueListWithFixedValues: true,
         ValueList       : {
-            Label          : '{i18n>criticality}',
-            CollectionPath : 'StatusVh',
+            Label          : 'Status Dropdown',
+            CollectionPath : 'StatusVh', 
             Parameters     : [
                 {
                     $Type               : 'Common.ValueListParameterInOut',
@@ -59,33 +60,60 @@ annotate service.Orders with{
       
 };
 
-//Value help dialog
 annotate service.Orders with{
-       retailerVh @(Common : {
+
+       retailerVh_mobileNumber@(Common : {
+        Text            : retailerVh.mobileNumber,
+        TextArrangement : #TextFirst,
         ValueListWithFixedValues: false,
         ValueList       : {
-            Label          : '{i18n>criticality}',
-            CollectionPath : 'Retailers',
+            Label          : 'Status Dropdown',
+            CollectionPath : 'Retailers', 
             Parameters     : [
                 {
                     $Type               : 'Common.ValueListParameterInOut',
-                    ValueListProperty   : 'name', // this will be selected properties
-                    LocalDataProperty : retailerVh_shopID,
+                    ValueListProperty   : 'name',
+                    LocalDataProperty   : retailerVh_mobileNumber
                 },
                 {
-                    $Type               : 'Common.ValueListParameterInOut',
-                    ValueListProperty   : 'mobileNumber', // this will be selected properties
-                    LocalDataProperty : retailerVh_mobileNumber,
-                },
-                { $Type: 'Common.ValueListParameterDisplayOnly',
-                        ValueListProperty: 'location'
+                    $Type               : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty   : 'location',
                 }
+                
                 
             ]
         }
     })
       
 };
+
+//Value help dialog
+// annotate service.Orders with{
+//        retailerVh_shopID @(Common : {
+//         ValueListWithFixedValues: true,
+//         ValueList       : {
+//             Label          : 'Retailers List',
+//             CollectionPath : 'Retailers',
+//             Parameters     : [
+//                 {
+//                     $Type               : 'Common.ValueListParameterInOut',
+//                     ValueListProperty   : 'name', // this will be selected properties
+//                     LocalDataProperty : retailerVh_shopID,
+//                 },
+//                 {
+//                     $Type               : 'Common.ValueListParameterInOut',
+//                     ValueListProperty   : 'mobileNumber', // this will be selected properties
+//                     LocalDataProperty : retailerVh_mobileNumber,
+//                 },
+//                 { $Type: 'Common.ValueListParameterDisplayOnly',
+//                         ValueListProperty: 'location'
+//                 }
+                
+//             ]
+//         }
+//     })
+      
+// };
 annotate service.Orders with @(
     UI.FieldGroup #GeneratedGroup1 : {
         $Type : 'UI.FieldGroupType',
@@ -98,7 +126,7 @@ annotate service.Orders with @(
         {
             $Type : 'UI.DataField',
             Label : 'Shop Name',
-            Value : retailerVh_shopID,
+            Value : retailerVh.name,
            
         },
         {

@@ -21,10 +21,9 @@ entity Wholesalers : managed{
 }
 
 entity Retailers : managed,CodeList{
-  key mobileNumber : String(10);
-  key shopID : String;
+  key mobileNumber : String(10) @Common.Text : name @Common.TextArrangement : #TextFirst;
   name : String(100);
-  location : String(100);
+  location : String(100); 
   city : String(50);
   pincode : String(6);
   GSTIN : String;
@@ -79,7 +78,7 @@ entity OrdersItems : cuid{
 
 
 entity StatusVh : CodeList { //dropdown
-  key status : String(2) @title : 'Status';
+  key status : String(2) @Common.Text : name @Common.TextArrangement : #TextFirst;
   name : String @title : 'Area';
   text : String;
 }
