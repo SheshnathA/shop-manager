@@ -1178,7 +1178,7 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 
 1. Create Association to the entity where you wants to define dropdown or VH (wanted to create dropdown on order page)
-
+-------------------------------
 entity Orders : managed{
   statusVh : Association to StatusVh;
   retailerVh : Association to Retailers;
@@ -1214,9 +1214,11 @@ entity Retailers : managed,CodeList{
   email : String(100);
   wholesalers : Association to Wholesalers;
 }
-
-3. annotation—
+-------------------------------------------------
+3. annotation
+-----------------------------------------------
 //Status dropdown
+-----------------------------------------------
 annotate service.Orders with{
        statusVh @(Common : {
         ValueListWithFixedValues: true, // True means it will act as dropdown and False means it will act as value help dialog
@@ -1236,8 +1238,9 @@ annotate service.Orders with{
     })
       
 };
-
+-----------------------------
 //Value help dialog
+-----------------------------
 annotate service.Orders with{
        retailerVh @(Common : {
         ValueListWithFixedValues: false, // True means it will act as dropdown and False means it will act as value help dialog
