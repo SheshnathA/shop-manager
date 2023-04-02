@@ -1173,3 +1173,94 @@ no changes added to commit (use "git add" and/or "git commit -a")
 8. install npm
 9. mbt bulid
 10. deploy
+
+## CAP-Dropdown-ValueHelp =====================================================
+
+
+1. Create Association to the entity where you wants to define dropdown or VH (wanted to create dropdown on order page)
+
+entity Orders : managed{
+  statusVh : Association to StatusVh;
+  retailerVh : Association to Retailers;
+  key orderNumber : String(20);
+   shopName : String(100);
+  wholesalerName : String(100);
+  shopMobNum : String(10);
+  wholesalermobNum : String(10);
+  shopAddress : String(200);
+  wholesalerAddress : String(200);
+  totalAmount : Integer;
+  items : Composition of many OrdersItems on items.orders=$self;   
+}
+
+2. create CodeList  (wanted to select available Retailers (VH) on order page during create order )
+
+entity StatusVh : CodeList { //dropdown
+  key status : String(2) @title : 'Status';
+  name : String @title : 'Area';
+  text : String;
+}
+
+entity Retailers : managed,CodeList{
+  key mobileNumber : String(10);
+  key shopID : String;
+  name : String(100);
+  location : String(100);
+  city : String(50);
+  pincode : String(6);
+  GSTIN : String;
+  type : String (50);
+  status : String(30);
+  email : String(100);
+  wholesalers : Association to Wholesalers;
+}
+
+3. annotation—
+//Status dropdown
+annotate service.Orders with{
+       statusVh @(Common : {
+        ValueListWithFixedValues: true, // True means it will act as dropdown and False means it will act as value help dialog
+        ValueList       : {
+            Label          : '{i18n>criticality}',
+            CollectionPath : 'StatusVh',
+            Parameters     : [
+                {
+                    $Type               : 'Common.ValueListParameterInOut',
+                    ValueListProperty   : 'name',
+                    LocalDataProperty   : statusVh_status
+                }
+                
+                
+            ]
+        }
+    })
+      
+};
+
+//Value help dialog
+annotate service.Orders with{
+       retailerVh @(Common : {
+        ValueListWithFixedValues: false, // True means it will act as dropdown and False means it will act as value help dialog
+        ValueList       : {
+            Label          : '{i18n>criticality}',
+            CollectionPath : 'Retailers',
+            Parameters     : [
+                {
+                    $Type               : 'Common.ValueListParameterInOut',
+                    ValueListProperty   : 'name', // when user select or choose the object then this will be shown as selected properties
+                    LocalDataProperty : retailerVh_shopID, // as binding properties and it always key field of the parent entity
+                },
+                {
+                    $Type               : 'Common.ValueListParameterInOut',
+                    ValueListProperty   : 'mobileNumber', // this will be selected properties (auto filled if any one selected if multiple InOut defined)
+                    LocalDataProperty : retailerVh_mobileNumber,
+                },
+                { $Type: 'Common.ValueListParameterDisplayOnly',
+                        ValueListProperty: 'location' // this will be available in the select list dialog or dropdown
+                }
+                
+            ]
+        }
+    })
+      
+};

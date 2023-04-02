@@ -1,7 +1,11 @@
 using WholesalersService as service from '../../srv/cat-service';
 
+
 annotate service.Orders with @(
-    UI.SelectionFields: [ shopName],
+        UI.SelectionFields : [
+        statusVh_status,
+        retailerVh_mobileNumber
+    ],
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
@@ -10,13 +14,15 @@ annotate service.Orders with @(
         },
         {
             $Type : 'UI.DataField',
+            Criticality : #Negative,
             Label : 'Shop Name',
-            Value : shopName,
+            Value : retailerVh_shopID,
+             ![@UI.Importance] : #High
         },
         {
             $Type : 'UI.DataField',
             Label : 'Mobile No.',
-            Value : shopMobNum,
+            Value : retailerVh_mobileNumber,
         },
         {
             $Type : 'UI.DataField',
@@ -32,7 +38,54 @@ annotate service.Orders with @(
 
 );
 
+//Status dropdown
+annotate service.Orders with{
+       statusVh @(Common : {
+        ValueListWithFixedValues: true,
+        ValueList       : {
+            Label          : '{i18n>criticality}',
+            CollectionPath : 'StatusVh',
+            Parameters     : [
+                {
+                    $Type               : 'Common.ValueListParameterInOut',
+                    ValueListProperty   : 'name',
+                    LocalDataProperty   : statusVh_status
+                }
+                
+                
+            ]
+        }
+    })
+      
+};
 
+//Value help dialog
+annotate service.Orders with{
+       retailerVh @(Common : {
+        ValueListWithFixedValues: false,
+        ValueList       : {
+            Label          : '{i18n>criticality}',
+            CollectionPath : 'Retailers',
+            Parameters     : [
+                {
+                    $Type               : 'Common.ValueListParameterInOut',
+                    ValueListProperty   : 'name', // this will be selected properties
+                    LocalDataProperty : retailerVh_shopID,
+                },
+                {
+                    $Type               : 'Common.ValueListParameterInOut',
+                    ValueListProperty   : 'mobileNumber', // this will be selected properties
+                    LocalDataProperty : retailerVh_mobileNumber,
+                },
+                { $Type: 'Common.ValueListParameterDisplayOnly',
+                        ValueListProperty: 'location'
+                }
+                
+            ]
+        }
+    })
+      
+};
 annotate service.Orders with @(
     UI.FieldGroup #GeneratedGroup1 : {
         $Type : 'UI.FieldGroupType',
@@ -45,12 +98,13 @@ annotate service.Orders with @(
         {
             $Type : 'UI.DataField',
             Label : 'Shop Name',
-            Value : shopName,
+            Value : retailerVh_shopID,
+           
         },
         {
             $Type : 'UI.DataField',
             Label : 'Mobile No.',
-            Value : shopMobNum,
+            Value : retailerVh_mobileNumber,
         },
         {
             $Type : 'UI.DataField',

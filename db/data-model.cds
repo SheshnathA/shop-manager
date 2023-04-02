@@ -1,5 +1,5 @@
 namespace com.shesh.shop.manager;
-using { cuid, managed } from '@sap/cds/common';
+using { cuid, managed, sap.common.CodeList} from '@sap/cds/common';
 
 entity Books {
   key ID : Integer;
@@ -20,8 +20,9 @@ entity Wholesalers : managed{
   retailers : Association to many Retailers on retailers.wholesalers = $self;
 }
 
-entity Retailers : managed{
+entity Retailers : managed,CodeList{
   key mobileNumber : String(10);
+  key shopID : String;
   name : String(100);
   location : String(100);
   city : String(50);
@@ -52,8 +53,10 @@ entity Products {
 }
 
 entity Orders : managed{
+  statusVh : Association to StatusVh;
+  retailerVh : Association to Retailers;
   key orderNumber : String(20);
-  shopName : String(100);
+   shopName : String(100);
   wholesalerName : String(100);
   shopMobNum : String(10);
   wholesalermobNum : String(10);
@@ -72,4 +75,11 @@ entity OrdersItems : cuid{
   unit : String(30);
   subTotal : Integer;
   orders : Association to Orders;
+}
+
+
+entity StatusVh : CodeList { //dropdown
+  key status : String(2) @title : 'Status';
+  name : String @title : 'Area';
+  text : String;
 }
