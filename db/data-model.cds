@@ -21,9 +21,9 @@ entity Wholesalers : managed{
 }
 
 entity Retailers : managed,CodeList{
-  key mobileNumber : String(10) @Common.Text : name @Common.TextArrangement : #TextFirst;
-  name : String(100);
-  location : String(100); 
+  key mobileNumber : String(10) @title : 'Shop ID';
+  name : String(100) @title : 'Shop Name';
+  location : String(100) @title : 'Shop Location'; 
   city : String(50);
   pincode : String(6);
   GSTIN : String;
@@ -51,10 +51,10 @@ entity Products {
   wholesalers : Association to Wholesalers;
 }
 
-entity Orders : managed{
+entity Orders : managed,cuid{
   statusVh : Association to StatusVh;
   retailerVh : Association to Retailers;
-  key orderNumber : String(20);
+  orderNumber : String(10);
    shopName : String(100);
   wholesalerName : String(100);
   shopMobNum : String(10);

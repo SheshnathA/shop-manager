@@ -2,6 +2,7 @@ using WholesalersService as service from '../../srv/cat-service';
 
 
 annotate service.Orders with @(
+    
         UI.SelectionFields : [
         statusVh_status,
         retailerVh_mobileNumber
@@ -15,23 +16,24 @@ annotate service.Orders with @(
         {
             $Type : 'UI.DataField',
             Label : 'Shop Name',
-            Value : retailerVh.name
+            Value : retailerVh.name,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Address',
+            Value : retailerVh.location,
         },
         {
             $Type : 'UI.DataField',
             Label : 'Mobile No.',
-            Value : retailerVh_mobileNumber,
+            Value : retailerVh.mobileNumber,
         },
         {
             $Type : 'UI.DataField',
             Label : 'Total',
             Value : totalAmount,
         },
-        {
-            $Type : 'UI.DataField',
-            Label : 'Address',
-            Value : shopAddress,
-        }
+        
     ]
 
 );
@@ -61,10 +63,8 @@ annotate service.Orders with{
 };
 
 annotate service.Orders with{
-
-       retailerVh_mobileNumber@(Common : {
-        Text            : retailerVh.mobileNumber,
-        TextArrangement : #TextFirst,
+    
+       retailerVh@(Common : {
         ValueListWithFixedValues: false,
         ValueList       : {
             Label          : 'Status Dropdown',
@@ -72,12 +72,18 @@ annotate service.Orders with{
             Parameters     : [
                 {
                     $Type               : 'Common.ValueListParameterInOut',
-                    ValueListProperty   : 'name',
+                    ValueListProperty   : 'mobileNumber',
                     LocalDataProperty   : retailerVh_mobileNumber
                 },
                 {
                     $Type               : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty   : 'name',
+                     
+                },
+                {
+                    $Type               : 'Common.ValueListParameterDisplayOnly',
                     ValueListProperty   : 'location',
+                  
                 }
                 
                 
@@ -122,27 +128,53 @@ annotate service.Orders with @(
             $Type : 'UI.DataField',
             Label : 'ID',
             Value : orderNumber,
+             ![@Common.FieldControl] : #ReadOnly,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Shop Name',
+            Label : 'Shop Name R',
             Value : retailerVh.name,
-           
+            ![@Common.FieldControl] : #ReadOnly,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Mobile No.',
+            Label : 'Shop Name H',
+            Value : retailerVh.createdAt,
+            ![@Common.FieldControl] : #Hidden,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Shop Name IN',
+            Value : retailerVh.createdBy,
+            ![@Common.FieldControl] : #Inapplicable,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Shop Name M',
+            Value : retailerVh.pincode,
+            ![@Common.FieldControl] : #Mandatory,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Shop Name O',
+            Value : retailerVh.email,
+            ![@Common.FieldControl] : #Optional,
+        },
+         {
+            $Type : 'UI.DataField',
+            Label : 'Location',
+            Value : retailerVh.location,
+            ![@Common.FieldControl] : #ReadOnly,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Shop ID.',
             Value : retailerVh_mobileNumber,
         },
         {
             $Type : 'UI.DataField',
             Label : 'Total',
             Value : totalAmount,
-        },
-        {
-            $Type : 'UI.DataField',
-            Label : 'Address',
-            Value : shopAddress,
         }
         ],
         

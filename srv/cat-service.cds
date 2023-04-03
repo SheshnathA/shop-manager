@@ -9,8 +9,8 @@ service WholesalersService {
     entity Products as projection on db.Products;
     entity Orders as projection on db.Orders;
     entity OrdersItems as projection on db.OrdersItems;
-    function getShopDetails(id: String) returns array of String;
     action getAllShop() returns array of String;
+    function getShopDetails(id: String) returns array of String;
 }
 
 annotate WholesalersService.Wholesalers with @odata.draft.enabled;

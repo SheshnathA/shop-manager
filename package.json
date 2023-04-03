@@ -28,7 +28,7 @@
     "eslint-plugin-ui5": "^0.1.0",
     "mocha": "^10.1.0",
     "rimraf": "^3.0.2",
-    "sqlite3": "^5.0.4"
+    "sqlite3": "^5.1.6"
   },
   "scripts": {
     "start": "cds run",
