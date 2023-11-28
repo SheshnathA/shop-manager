@@ -45,7 +45,7 @@ entity Products {
   pcsRate : Integer;
   stocks : Integer;
   unit : String(30);
-  image : String;
+  image : LargeBinary @Core.MediaType: 'image/png';
   mfd : Date;
   expDate : Date;
   availability : String(30);
